@@ -21,6 +21,8 @@ Options | Description
 -r | Recursively add subdirectories.
 -s -shuffle | Shuffle.
 -l -list [path] | Path to file list text file.
+
+Options | Description
 ------- | -----------
 -a -append | Append to existing playlist.
 -t -target [path] | Path to target.
@@ -28,6 +30,7 @@ Options | Description
 -e -extend-filter [string] | List of extensions to include, regular expressions seperated by "\|". Appended to default list of extensions.
 -E -reduce-filter [string] |
 -g -regex-filter [string] | Regular expression for filenames to include.
+
 Options | Description
 ------- | -----------
 -m -min-size [string] | Minimum file size.
@@ -45,12 +48,12 @@ Snapshots
 ---------
 Filename format: `<filename>_snapshot_<position>_[<date>].<extension>`
 
-- <filename> = Name of the file the snapshot was taken from
-- <position> = Position at which the snapshot was taken, format: `mm.ss` or `hh.mm.ss`
-- <date> = Date the snapshot was taken, format: `yyyy.mm.dd_hh.mm.ss`
-- <extension> = Image file extension
+- `<filename>` = Name of the file the snapshot was taken from
+- `<position>` = Position at which the snapshot was taken, format: `mm.ss` or `hh.mm.ss`
+- `<date>` = Date the snapshot was taken, format: `yyyy.mm.dd_hh.mm.ss`
+- `<extension>` = Image file extension
 
-I want to group snapshots by <filename>
+I want to group snapshots by `<filename>`
 
 I want to create a segment list from a list of snapshot files
 
@@ -65,6 +68,6 @@ Segments
 
 Directories
 -----------
-- Look for snapshots and <filename> in current working directory
+- Look for snapshots and `<filename>` in current working directory
   - Option: look for snapshots in a specific directory
-  - Option: look for <filename> in a specific directory
+  - Option: look for `<filename>` in a specific directory
