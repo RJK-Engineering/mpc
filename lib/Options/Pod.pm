@@ -10,7 +10,7 @@ Options::Pod::Configure(
                                     # a single dash in generated POD
     "comments_included",            # indicates comments are present in
                                     # GetOptions() configuration
-    "tri-state"
+    "tri-state"                     # argument spec / 1 / undefined
 );
 Options::Pod::GetOptions(
     ['No argument name'],           # POD: =head2 No argument name
