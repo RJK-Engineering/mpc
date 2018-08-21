@@ -9,7 +9,7 @@ MPC-HC main repository: https://github.com/mpc-hc/mpc-hc
 View and change Media Player Classic settings.
 
 ```
-Usage: tweak.pl [options] [setting] [value]
+Usage: mpcset.pl [options] [setting] [value]
 ```
 
 ## Make MPC Playlist - mkmpcpl.pl
@@ -71,3 +71,62 @@ Directories
 - Look for snapshots and `<filename>` in current working directory
   - Option: look for snapshots in a specific directory
   - Option: look for `<filename>` in a specific directory
+
+To Do
+-----
+- monitor default.mpcpl, create history: cp when changed
+- remove emtpy dir after moves fail
+- k: add title to bookmark snapshot filename
+
+get opened file special case: opened more then once
+bookmark from msm using webif
+- no image available
+- take snapshot from msm?
+
+display clock time and bookmark time
+
+Menu
+----------
+
+keys 12345 - menu struct
+
+1 monitor:
+   1 enabled - execute enabled actions for new snapshots
+   1 exit
+   1 empty bin
+   1 list bin
+1 snapshot actions:
+   1 get info from snapshot: filename, position, date
+      option: snapshot dir
+   1 get info from instances: path
+   1 get info from webif (only one instance): ...
+      option: url
+   1 bookmark - store snapshot alongside file
+   1 copy - copy snapshot to dirs
+      option: dirs
+   1 keep a copy (move to bin) when bookmark disabled and no copies were made
+      option: bin dir
+   1 store info - assign sequence number
+      1 categorize - cycle through cats, store cat index number + cat
+      option: store file
+   1 copy to clipboard - filename/path/other property of media or snapshot file
+      option: property (eg: media.name snapshot.path image.height)
+selected, new :
+   1 undo - remove info, delete snapshot
+1 actions:
+   1 move to category subdir
+      all except named "delete"
+      prompt for category name
+   1 delete files in category
+      named "delete"
+      prompt for category name
+   1 list bookmarks - sequence number
+   1 delete a bookmark
+
+
+file:media
+file:snapshot
+media.bookmark
+   bookmark.position
+   bookmark.date
+   image:bookmark.snapshot

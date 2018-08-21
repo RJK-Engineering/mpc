@@ -12,13 +12,13 @@ q Esc   | Quit
 a       | AutoCompleteMode
 b       | BookmarkMode
 O       | OpenMode
-**Per category**
-c       | SetCategory
-C       | CompleteCategory
 **Current snapshot**
+c       | SetCategory
 o       | Open
 t       | Tag
 u       | Undo
+**Per category**
+C       | CompleteCategory
 **All**
 d       | Delete
 m       | Move
