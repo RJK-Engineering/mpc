@@ -110,29 +110,35 @@ Menu
 
 keys 12345 - menu struct
 
-1 monitor:
-   1 enabled - execute enabled actions for new snapshots
+1 monitor
+   1 enabled - bookmark upon snapshot
    1 exit
+1 bin
    1 empty bin
    1 list bin
-1 snapshot actions:
+1 bookmark upon snapshot actions:
    1 get info from snapshot: filename, position, date
       option: snapshot dir
    1 get info from instances: path
    1 get info from webif (only one instance): ...
       option: url
-   1 bookmark - store snapshot alongside file
+   1 save - store snapshot alongside file
    1 copy - copy snapshot to dirs
       option: dirs
-   1 keep a copy (move to bin) when bookmark disabled and no copies were made
+   1 keep a copy (move to bin) when snapshot save disabled and no copies were made
       option: bin dir
    1 store info - assign sequence number
       1 categorize - cycle through cats, store cat index number + cat
       option: store file
-   1 copy to clipboard - filename/path/other property of media or snapshot file
-      option: property (eg: media.name snapshot.path image.height)
-selected, new :
-   1 undo - remove info, delete snapshot
+   1 copy to clipboard - filename/path/other property of bookmark
+      option: property (eg: position file.name file.path snapshot.path image.height)
+1 bookmarks
+   1 list bookmarks - sequence number
+   1 undo last bookmark - remove info, delete snapshot
+1 bookmark selection:
+   1 by list number
+   1 by category
+   1 all
 1 actions:
    1 move to category subdir
       all except named "delete"
@@ -140,13 +146,28 @@ selected, new :
    1 delete files in category
       named "delete"
       prompt for category name
-   1 list bookmarks - sequence number
    1 delete a bookmark
 
+media.file.[file props]
+media.bookmarks[]
+bookmark.file = media.file
+bookmark.position
+bookmark.date
+bookmark.snapshot.[file props]
+bookmark.image.[image props]
 
-file:media
-file:snapshot
-media.bookmark
-   bookmark.position
-   bookmark.date
-   image:bookmark.snapshot
+## Settings
+
+```
+[Settings\PnSPresets]
+Preset0=Scale to 16:9 TV,0.500,0.500,1.000,1.333
+Preset1=Zoom To Widescreen,0.500,0.500,1.333,1.333
+Preset2=Zoom To Ultra-Widescreen,0.500,0.500,1.763,1.763
+Preset3=Fullscreen Seek Bar + Status,0.500,0.486,0.942,0.942
+Preset4=1080 top left,0.625,0.625,1.400,1.400
+Preset5=1080 top center,0.5,0.625,1.400,1.400
+Preset6=1080 top right,0.375,0.625,1.400,1.400
+Preset7=1080 bottom left,0.625,0.375,1.400,1.400
+Preset8=1080 bottom center,0.5,0.375,1.400,1.400
+Preset9=1080 bottom right,0.375,0.375,1.400,1.400
+```
