@@ -104,57 +104,69 @@ Menu
 
 keys 12345 - menu struct
 
-1. Monitor (can be enabled/disabled)
-   1. Snaphots in dir (option: snapshot dir)
-   1. Web interface (option: webif url)
-   1. Default.mpcpl, create history: cp when changed (option: mpc dir)
-1. Actions
-   1. Process new snapshots since last monitoring
-   1. List files
-   1. List bookmarks
-   1. List segments
-   1. List files in bin
-   1. Show mpc status using webif
-   1. Show running mpc instances
-   1. Show monitor status
-   1. Show unprocessed snapshots in snapshot dir
-   1. Take a snapshot using webif
-   1. Empty bin
-   1. Display help
-   1. Exit
-1. New snapshot event:
-   1. Bookmark mode
-      1. Get info from snapshot: filename, position, date
-      1. Get info from default.mpcpl: path
-      1. Get info from instances: path
-      1. Get info from webif (only one instance)
-      1. Categorize - cycle through cats, store cat index number + cat (option: category list)
-      1. Copy to clipboard - string with bookmark properties (see: [Properties](#properties)) (option: string)
-      1. Move snapshot to bin (option: bin dir)
-      1. Store info - assign sequence number (option: file path)
-   1. Snapshot mode - store snapshot alongside media file
-   1. Open mode - open media file based on filename (see Filecheck)
-1. Select media file(s)
-   1. By list number
-   1. By path using regex
-   1. By category
-   1. All
-   1. None (clear selection)
-1. Media file actions
-   1. Default selection: all except category "delete"
-      1. Move to category subdir, remove from list, execute command (option: command string)
-   1. Default selection: category "delete"
-      1. Delete files in category, remove from list
-   1. Default selection: last file
-      1. List bookmarks
-      1. List segments
-      1. Remove from list, move snapshots to bin (*undo*)
-      1. Set category
-      1. Execute command (option: command string)
-      1. Open file based on filename (see Filecheck)
-      1. Tag - add/remove
-      1. Cut (option: output dir)
-      1. Join (cut required first, option: output dir)
+* Monitor (can be enabled/disabled)
+  * Snaphots in dir (option: snapshot dir)
+    * New snapshot
+  * Web interface (option: webif url)
+    * New file playing
+    * Status change
+    * Position change
+  * Default.mpcpl, create history: cp when changed (option: mpc dir)
+    * File change
+* Actions
+  * List
+    * List files
+    * List bookmarks
+    * List segments
+    * List files in bin
+  * Show status
+    * Show monitor status (monitors en/dis, cwd, category list, en/dis actions)
+    * Show unprocessed snapshots in snapshot dir
+    * Show mpc status using webif
+    * Show running mpc instances
+  * Change cwd
+  * Process unprocessed snapshots
+  * Take a snapshot using web interface
+  * Empty bin
+  * Display help
+  * Exit
+* New snapshot event actions (can be enabled/disabled)
+  * Bookmark mode
+    1. Get info from snapshot: filename, position, date
+    1. Get info from default.mpcpl: path
+    1. Get info from instances: path
+    1. Get info from web interface (only one instance)
+    1. Categorize - cycle through cats, store cat index number + cat (option: category list)
+    1. Copy to clipboard - string with bookmark properties (see: [Properties](#properties)) (option: string)
+    1. Move snapshot to bin (option: bin dir)
+    1. Store info - assign sequence number (option: file path)
+    1. Clear media file selection, set last bookmarked
+  * Snapshot mode - store snapshot alongside media file
+  * Open mode - open media file based on filename (see Filecheck)
+* Select media file(s)
+  * Last bookmarked
+  * By list number
+  * By path using regex
+  * By category
+  * All
+  * None (clear selection)
+* Media file actions
+  * Move to category subdir - Default selection: all except category "delete"
+    * Move, remove from list, execute command (option: command string)
+  * Delete - Default selection: category "delete"
+    * Delete, remove from list, execute command (option: command string)
+  * List - Default selection: last file
+    * List bookmarks
+    * List segments
+    * Remove from list, move snapshots to bin (*undo*)
+    * Set category - input
+    * Set category - cycle through cats, store cat index number + cat (option: cat list)
+    * Add/remove tags - input
+  * System - Default selection: last file
+    * Execute command (option: command string)
+    * Open file based on filename (see Filecheck)
+    * Cut (option: output dir)
+    * Join (cut required first, option: output dir)
 
 ### Properties
 
