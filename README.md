@@ -74,16 +74,10 @@ Directories
 
 To Do
 -----
-- monitor default.mpcpl, create history: cp when changed
+- display clock time and bookmark time
+- get open file special case: opened more then once
 - remove emtpy dir after moves fail
 - k: add title to bookmark snapshot filename
-
-get opened file special case: opened more then once
-bookmark from msm using webif
-- no image available
-- take snapshot from msm?
-
-display clock time and bookmark time
 
 Keys
 ----
@@ -110,42 +104,61 @@ Menu
 
 keys 12345 - menu struct
 
-1. monitor
-   1. switch - bookmark upon snapshot/pause monitoring
-   1. list files
-   1. list bookmarks
-   1. list segments
-   1. exit
-1. bin
-   1. list bin
-   1. empty bin
-1. bookmark upon snapshot actions:
-   1. get info from snapshot: filename, position, date (option: snapshot dir)
-   1. get info from instances: path
-   1. get info from webif (only one instance): ... (option: webif url)
-   1. save - store snapshot alongside file
-   1. keep a copy (move to bin) when snapshot save disabled (option: bin dir)
-   1. categorize - cycle through cats, store cat index number + cat (option: category list)
-   1. copy to clipboard - string with properties (see [Properties](#properties)) (option: string)
-   1. store info - assign sequence number (option: file path)
-1. file selection
-   1. by list number
-   1. by category
-   1. all
-1. actions
-   1. move to category subdir, remove from list
-      default: all except category "delete"
-   1. delete files in category, remove from list
-      default: category "delete"
-   1. remove a file
-      default: last file
-   1. process new snapshots since last monitoring
+1. Monitor (can be enabled/disabled)
+   1. Snaphots in dir (option: snapshot dir)
+   1. Webif (option: webif url)
+   1. Default.mpcpl, create history: cp when changed (option: mpc dir)
+1. Actions
+   1. Process new snapshots since last monitoring
+   1. List files
+   1. List bookmarks
+   1. List segments
+   1. List files in bin
+   1. Show mpc status using webif
+   1. Show running mpc instances
+   1. Show monitor status
+   1. Show unprocessed snapshots in snapshot dir
+   1. Take a snapshot using webif
+   1. Empty bin
+   1. Display help
+   1. Exit
+1. New snapshot event:
+   1. Bookmark mode
+      1. Get info from snapshot: filename, position, date
+      1. Get info from default.mpcpl: path
+      1. Get info from instances: path
+      1. Get info from webif (only one instance)
+      1. Move snapshot to bin (option: bin dir)
+      1. Categorize - cycle through cats, store cat index number + cat (option: category list)
+      1. Copy to clipboard - string with bookmark properties (see: [Properties](#properties)) (option: string)
+      1. Store info - assign sequence number (option: file path)
+   1. Snapshot mode - store snapshot alongside file
+   1. Open mode - open file based on filename (see Filecheck)
+1. File selection
+   1. By list number
+   1. By path using regex
+   1. By category
+   1. All
+1. File actions
+   1. Default selection: all except category "delete"
+      1. Move to category subdir, remove from list, execute command (option: command string)
+   1. Default selection: category "delete"
+      1. Delete files in category, remove from list
+   1. Default selection: last file
+      1. Remove from list (*undo*)
+      1. Set category
+      1. Execute command (option: command string)
+      1. Open file based on filename (see Filecheck)
+      1. Tag
+      1. Cut (option: output dir)
+      1. Join (cut required first, option: output dir)
 
 ### Properties
 
+```
 file.[file props]
 file.bookmarks[]
-bookmark.file = media.file
+bookmark.file = file
 bookmark.position
 bookmark.date
 bookmark.snapshot.[file props]
@@ -153,6 +166,7 @@ bookmark.image.[image props]
 
 file: name, dir, path, parent, size, created, modified, accessed
 image: width, height, ...
+```
 
 ### Lists
 
