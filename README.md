@@ -110,51 +110,74 @@ Menu
 
 keys 12345 - menu struct
 
-1 monitor
-   1 enabled - bookmark upon snapshot
-   1 exit
-1 bin
-   1 empty bin
-   1 list bin
-1 bookmark upon snapshot actions:
-   1 get info from snapshot: filename, position, date
-      option: snapshot dir
-   1 get info from instances: path
-   1 get info from webif (only one instance): ...
-      option: url
-   1 save - store snapshot alongside file
-   1 copy - copy snapshot to dirs
-      option: dirs
-   1 keep a copy (move to bin) when snapshot save disabled and no copies were made
-      option: bin dir
-   1 store info - assign sequence number
-      1 categorize - cycle through cats, store cat index number + cat
-      option: store file
-   1 copy to clipboard - filename/path/other property of bookmark
-      option: property (eg: position file.name file.path snapshot.path image.height)
-1 bookmarks
-   1 list bookmarks - sequence number
-   1 undo last bookmark - remove info, delete snapshot
-1 bookmark selection:
-   1 by list number
-   1 by category
-   1 all
-1 actions:
-   1 move to category subdir
-      all except named "delete"
-      prompt for category name
-   1 delete files in category
-      named "delete"
-      prompt for category name
-   1 delete a bookmark
+1. monitor
+   1. switch - bookmark upon snapshot/pause monitoring
+   1. list files
+   1. list bookmarks
+   1. list segments
+   1. exit
+1. bin
+   1. list bin
+   1. empty bin
+1. bookmark upon snapshot actions:
+   1. get info from snapshot: filename, position, date (option: snapshot dir)
+   1. get info from instances: path
+   1. get info from webif (only one instance): ... (option: webif url)
+   1. save - store snapshot alongside file
+   1. keep a copy (move to bin) when snapshot save disabled (option: bin dir)
+   1. categorize - cycle through cats, store cat index number + cat (option: category list)
+   1. copy to clipboard - string with properties (see [Properties](#properties)) (option: string)
+   1. store info - assign sequence number (option: file path)
+1. file selection
+   1. by list number
+   1. by category
+   1. all
+1. actions
+   1. move to category subdir, remove from list
+      default: all except category "delete"
+   1. delete files in category, remove from list
+      default: category "delete"
+   1. remove a file
+      default: last file
+   1. process new snapshots since last monitoring
 
-media.file.[file props]
-media.bookmarks[]
+### Properties
+
+file.[file props]
+file.bookmarks[]
 bookmark.file = media.file
 bookmark.position
 bookmark.date
 bookmark.snapshot.[file props]
 bookmark.image.[image props]
+
+file: name, dir, path, parent, size, created, modified, accessed
+image: width, height, ...
+
+### Lists
+
+```
+files
+# file
+1 file1.avi
+2 file2.avi
+3 file3.avi
+
+bookmarks
+# file      position
+1 file1.avi 1:00
+2 file1.avi 2:00
+3 file2.avi 1:00
+4 file2.avi 3:00
+5 file3.avi 1:00
+
+segments
+# file      start duration
+1 file1.avi 1:00  1:00
+2 file2.avi 1:00  2:00
+3 file3.avi 1:00
+
+```
 
 ## Settings
 
