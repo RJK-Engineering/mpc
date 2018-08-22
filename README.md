@@ -106,7 +106,7 @@ keys 12345 - menu struct
 
 1. Monitor (can be enabled/disabled)
    1. Snaphots in dir (option: snapshot dir)
-   1. Webif (option: webif url)
+   1. Web interface (option: webif url)
    1. Default.mpcpl, create history: cp when changed (option: mpc dir)
 1. Actions
    1. Process new snapshots since last monitoring
@@ -128,28 +128,31 @@ keys 12345 - menu struct
       1. Get info from default.mpcpl: path
       1. Get info from instances: path
       1. Get info from webif (only one instance)
-      1. Move snapshot to bin (option: bin dir)
       1. Categorize - cycle through cats, store cat index number + cat (option: category list)
       1. Copy to clipboard - string with bookmark properties (see: [Properties](#properties)) (option: string)
+      1. Move snapshot to bin (option: bin dir)
       1. Store info - assign sequence number (option: file path)
-   1. Snapshot mode - store snapshot alongside file
-   1. Open mode - open file based on filename (see Filecheck)
-1. File selection
+   1. Snapshot mode - store snapshot alongside media file
+   1. Open mode - open media file based on filename (see Filecheck)
+1. Select media file(s)
    1. By list number
    1. By path using regex
    1. By category
    1. All
-1. File actions
+   1. None (clear selection)
+1. Media file actions
    1. Default selection: all except category "delete"
       1. Move to category subdir, remove from list, execute command (option: command string)
    1. Default selection: category "delete"
       1. Delete files in category, remove from list
    1. Default selection: last file
-      1. Remove from list (*undo*)
+      1. List bookmarks
+      1. List segments
+      1. Remove from list, move snapshots to bin (*undo*)
       1. Set category
       1. Execute command (option: command string)
       1. Open file based on filename (see Filecheck)
-      1. Tag
+      1. Tag - add/remove
       1. Cut (option: output dir)
       1. Join (cut required first, option: output dir)
 
@@ -157,14 +160,18 @@ keys 12345 - menu struct
 
 ```
 file.[file props]
+file.audio.[audio props]
+file.video.[video props]
 file.bookmarks[]
 bookmark.file = file
 bookmark.position
 bookmark.date
 bookmark.snapshot.[file props]
-bookmark.image.[image props]
+bookmark.snapshot.[image props]
 
 file: name, dir, path, parent, size, created, modified, accessed
+audio: codec, bitrate, duration, ...
+video: codec, bitrate, duration, ...
 image: width, height, ...
 ```
 
