@@ -1,6 +1,13 @@
 use strict;
 use warnings;
 
+BEGIN {
+    # add lib paths
+    use File::Basename qw(dirname);
+    my $home = dirname(__FILE__);
+    push @INC, $home, "$home/lib";
+}
+
 use Options::Pod;
 use Pod::Usage qw(pod2usage);
 
