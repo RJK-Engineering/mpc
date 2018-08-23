@@ -287,25 +287,32 @@ if ($opts{mpcstatus}) {
 
 ###############################################################################
 
-if (-e $opts{lockFile}) {
-    open my $fh, '<', $opts{lockFile} or die "$!: $opts{lockFile}";
-    my $pid = <$fh>;
-    chomp $pid;
-    close $fh;
+CheckExistingLock();
+CreateLock();
 
-    my $proc = ProcessList::GetPid($pid);
-    if ($proc) {
-        print "$0 is already running.\n" unless $opts{quiet};
-        undef $opts{lockFile}; # do not remove file in END block
-        exit 1;
-    } else {
-        print "$0 was not closed properly, old lock file found.\n" unless $opts{quiet};
+sub CheckExistingLock {
+    if (-e $opts{lockFile}) {
+        open my $fh, '<', $opts{lockFile} or die "$!: $opts{lockFile}";
+        my $pid = <$fh>;
+        chomp $pid;
+        close $fh;
+
+        my $proc = ProcessList::GetPid($pid);
+        if ($proc) {
+            print "$0 is already running.\n" unless $opts{quiet};
+            undef $opts{lockFile}; # do not remove file in END block
+            exit 1;
+        } else {
+            print "$0 was not closed properly, old lock file found.\n" unless $opts{quiet};
+        }
     }
 }
-# create lock file
-open my $fh, '>', $opts{lockFile} or die "$!: $opts{lockFile}";
-print $fh $$; # write pid
-close $fh;
+
+sub CreateLock {
+    open my $fh, '>', $opts{lockFile} or die "$!: $opts{lockFile}";
+    print $fh $$; # write pid
+    close $fh;
+}
 
 END {
     unlink $opts{lockFile} if $opts{lockFile};
