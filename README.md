@@ -19,7 +19,11 @@ See [mpcset.md](mpcset.md)
 
 ## Make MPC Playlist - mkmpcpl.pl
 
+See [mkmpcpl.md](mkmpcpl.md)
+
 ## MPC Monitor - mpcmon.pl
+
+See [mpcmon.md](mpcmon.md)
 
 ## Settings
 
