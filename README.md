@@ -15,15 +15,16 @@ ppm install Number::Bytes::Human
 ## MPC Settings - mpcset.pl
 
 View and change Media Player Classic settings.
-See [mpcset.md](mpcset.md)
+
+See: [mpcset.md](mpcset.md)
 
 ## Make MPC Playlist - mkmpcpl.pl
 
-See [mkmpcpl.md](mkmpcpl.md)
+See: [mkmpcpl.md](mkmpcpl.md)
 
 ## MPC Monitor - mpcmon.pl
 
-See [mpcmon.md](mpcmon.md)
+See: [mpcmon.md](mpcmon.md)
 
 ## Settings
 

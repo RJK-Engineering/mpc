@@ -24,13 +24,6 @@ Filename format: `<filename>_snapshot_<position>_[<date>].<extension>`
   - Option: look for snapshots in a specific directory
   - Option: look for `<filename>` in a specific directory
 
-## To Do
-
-- display clock time and bookmark time
-- get open file special case: opened more then once
-- remove emtpy dir after moves fail
-- k: add title to bookmark snapshot filename
-
 ## Actions
 
 * Monitor (can be enabled/disabled)
@@ -97,33 +90,6 @@ Filename format: `<filename>_snapshot_<position>_[<date>].<extension>`
     * Cut (option: output dir)
     * Join (cut required first, option: output dir)
 
-## Keys
-
-Maybe: keys 12345 - menu struct
-
-Key     | Action | Reply
-------- | ------ | -----
-h ?     | Help
-s       | Status
-l       | List
-r       | Reset
-p       | Pause monitoring
-q Esc   | Quit
-**Mode**
-a       | AutoCompleteMode
-b       | BookmarkMode
-O       | OpenMode
-**Current snapshot**
-c       | SetCategory
-o       | Open
-t       | Tag
-u       | Undo
-**Per category**
-C       | CompleteCategory
-**All**
-d       | Delete
-m       | Move
-
 ## Properties
 
 ```
@@ -167,3 +133,37 @@ segments
 3 file3.avi 1:00
 
 ```
+
+## Keys
+
+Maybe: keys 12345 - menu struct
+
+Key     | Action | Reply
+------- | ------ | -----
+h ?     | Help
+s       | Status
+l       | List
+r       | Reset
+p       | Pause monitoring
+q Esc   | Quit
+**Mode**
+a       | AutoCompleteMode
+b       | BookmarkMode
+O       | OpenMode
+**Current snapshot**
+c       | SetCategory
+o       | Open
+t       | Tag
+u       | Undo
+**Per category**
+C       | CompleteCategory
+**All**
+d       | Delete
+m       | Move
+
+## To Do
+
+- display clock time and bookmark time
+- get open file special case: opened more then once
+- remove emtpy dir after moves fail
+- k: add title to bookmark snapshot filename
