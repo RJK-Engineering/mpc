@@ -2,6 +2,13 @@ use strict;
 use warnings;
 use utf8;
 
+BEGIN {
+    # add lib paths
+    use File::Basename qw(dirname);
+    my $home = dirname(__FILE__);
+    push @INC, $home, "$home/lib";
+}
+
 use Options::Pod;
 use Pod::Usage qw(pod2usage);
 
@@ -10,6 +17,7 @@ use Try::Tiny;
 
 use Cwd qw(getcwd);
 use File::Copy qw(move);
+use File::Path qw(make_path);
 use Number::Bytes::Human qw(format_bytes);
 use Win32::Clipboard;
 
@@ -20,6 +28,8 @@ Interactive::SetClass('Term::ReadKey');
 use MPC::Playlist;
 use MPC::SnapshotMonitor;
 use ProcessList;
+
+use MPCMon;
 
 ###############################################################################
 =head1 DESCRIPTION
@@ -175,6 +185,7 @@ my %opts = (
     'Directory monitor' => 1,
     'Auto complete' => 1,
     'Open mode' => 0,
+    categories => "",
 );
 Options::Pod::Configure("comments_included");
 Options::Pod::GetOptions(
@@ -259,10 +270,10 @@ my $snapshotMon = new MPC::SnapshotMonitor(
     snapshotDir => $opts{snapshotDir},
     workingDir => $cwd,
     port => $opts{port},
-    #~ url => $opts{url},
-    #~ requestAgent => $opts{requestAgent},
-    #~ requestTimeout => $opts{requestTimeout},
-    #~ offlineTimeout => $opts{offlineTimeout},
+    url => $opts{url},
+    requestAgent => $opts{requestAgent},
+    requestTimeout => $opts{requestTimeout},
+    offlineTimeout => $opts{offlineTimeout},
 )->init;
 
 if ($opts{mpcstatus}) {
@@ -753,7 +764,7 @@ sub CheckDir {
         }
         return 0;
     }
-    unless (mkdir $dir) {
+    unless (make_path $dir) {
         throw Exception("$!: $dir");
     }
     return 1;
