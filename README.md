@@ -4,6 +4,14 @@ MPC-HC homepage: https://mpc-hc.org
 
 MPC-HC main repository: https://github.com/mpc-hc/mpc-hc
 
+## Install
+
+Required perl modules:
+
+```
+ppm install Number::Bytes::Human
+```
+
 ## MPC Settings - mpcset.pl
 
 View and change Media Player Classic settings.
