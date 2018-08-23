@@ -1,41 +1,28 @@
 # MPC Monitor - mpcmon.pl
 
-## Snapshots
+Monitor
+- Snapshot directory
+- Web interface
+- Last playlist
 
-Filename format: `<filename>_snapshot_<position>_[<date>].<extension>`
+## Events
 
-- `<filename>` = Name of the file the snapshot was taken from
-- `<position>` = Position at which the snapshot was taken, format: `mm.ss` or `hh.mm.ss`
-- `<date>` = Date the snapshot was taken, format: `yyyy.mm.dd_hh.mm.ss`
-- `<extension>` = Image file extension
-
-## Segments
-
-- Snapshot files sorted from old to new
-- Default: first snapshot is segment start
-  - Option: start @ 0:00, first snapshot is segment stop
-- If last snapshot is not a segment stop
-  - Default: ignore last snapshot
-  - Option: segment stop is end of file
-
-## Directories
-
-- Look for snapshots and `<filename>` in current working directory
-  - Option: look for snapshots in a specific directory
-  - Option: look for `<filename>` in a specific directory
+* Snaphot dir
+  * New snapshot
+* Web interface
+  * New file playing
+  * Status change
+  * Position change
+* Last playlist
+  * File change
 
 ## Actions
 
-* Monitor (can be enabled/disabled)
-  * Snaphots in dir (option: snapshot dir)
-    * New snapshot
+* Enable/disable monitors
+  * Snaphot dir (option: snapshot dir)
   * Web interface (option: webif url)
-    * New file playing
-    * Status change
-    * Position change
   * Default.mpcpl, create history: cp when changed (option: mpc dir)
-    * File change
-* Actions
+* Main actions
   * List
     * List files
     * List bookmarks
@@ -89,6 +76,30 @@ Filename format: `<filename>_snapshot_<position>_[<date>].<extension>`
     * Open file based on filename (see Filecheck)
     * Cut (option: output dir)
     * Join (cut required first, option: output dir)
+
+## Snapshots
+
+Filename format: `<filename>_snapshot_<position>_[<date>].<extension>`
+
+- `<filename>` = Name of the file the snapshot was taken from
+- `<position>` = Position at which the snapshot was taken, format: `mm.ss` or `hh.mm.ss`
+- `<date>` = Date the snapshot was taken, format: `yyyy.mm.dd_hh.mm.ss`
+- `<extension>` = Image file extension
+
+### Directories
+
+- Look for snapshots and `<filename>` in current working directory
+  - Option: look for snapshots in a specific directory
+  - Option: look for `<filename>` in a specific directory
+
+### Segments
+
+- Snapshot files sorted from old to new
+- Default: first snapshot is segment start
+  - Option: start @ 0:00, first snapshot is segment stop
+- If last snapshot is not a segment stop
+  - Default: ignore last snapshot
+  - Option: segment stop is end of file
 
 ## Properties
 
