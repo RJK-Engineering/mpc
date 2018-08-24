@@ -11,7 +11,9 @@ BEGIN {
 
 use Options::Pod;
 use Pod::Usage qw(pod2usage);
-use MPCMon;
+
+use MPCTools::MPCMon;
+use MPCTools::MPCMonControl;
 
 ###############################################################################
 =head1 DESCRIPTION
@@ -238,13 +240,11 @@ $opts{'Auto complete'} = 1 if $opts{completeCommand};
 $opts{categories} = [ split /,/, $opts{categories} ];
 
 $opts{snapshotBinDir} = "$opts{snapshotDir}\\del";
-if (MPCMon::CheckDir($opts{snapshotBinDir})) {
-    print "Created $opts{snapshotBinDir}\n" if $opts{verbose};
-}
+MPCTools::MPCMon::CheckDir($opts{snapshotBinDir}, $opts{verbose});
 
 ###############################################################################
 
-my $mon = new MPCMon();
+my $mon = new MPCTools::MPCMon()->init(\%opts);
 
 if ($opts{mpcstatus}) {
     if (my $mpcStatus = $mon->{snapshotMon}->getStatus) {
@@ -257,14 +257,14 @@ if ($opts{mpcstatus}) {
 
 ###############################################################################
 
-$opts{actions} = {
+my $actions = {
     '?' => \&Help,
     a => sub { $mon->autoCompleteMode },
     b => sub { $mon->bookmarkMode },
     c => sub { $mon->setCategory },
     C => sub { $mon->completeCategory },
     d => sub { $mon->deleteFiles },
-    h => sub { $mon->help },
+    h => \&Help,
     l => sub { $mon->list },
     m => sub { $mon->moveToCategory },
     o => sub { $mon->openFile },
@@ -277,15 +277,26 @@ $opts{actions} = {
     u => sub { $mon->undo },
 };
 
-$mon->init(\%opts);
+my $control = new MPCTools::MPCMonControl($mon)->init(\%opts, $actions);
 
-print "keys: ", join(" ", sort keys %{$opts{actions}}), "\n" if $opts{debug};
+print "Keys: ", join(" ", sort keys %$actions), "\n" if $opts{debug};
+
+sub Help {
+    pod2usage(
+        -exitstatus => 'NOEXIT',
+        -verbose => 99,
+        -sections => "USAGE/Keys",
+        -indent => 0,
+        -width => $control->{console}->columns,
+    );
+    $control->{console}->lineUp;
+}
 
 ###############################################################################
 
 $SIG{INT} = q(Interrupt);
 
-$mon->start;
+$control->start;
 
 sub Interrupt {
     my ($signal) = @_;
@@ -293,5 +304,5 @@ sub Interrupt {
 }
 
 END {
-    $mon->finish;
+    $mon->finish if $mon;
 }

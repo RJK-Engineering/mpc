@@ -1,4 +1,4 @@
-package MPCMon;
+package MPCTools::MPCMon;
 
 use strict;
 use warnings;
@@ -12,7 +12,6 @@ use File::Path qw(make_path);
 use Number::Bytes::Human qw(format_bytes);
 use Win32::Clipboard;
 
-use Console;
 use File::JSON;
 use Interactive qw(Ask ReadLine Confirm);
 Interactive::SetClass('Term::ReadKey');
@@ -27,13 +26,11 @@ sub new {
 }
 
 sub init {
-    my ($self, $opts) = @_;
+    my $self = shift;
+    $self->{opts} = shift;
 
-    $self->{opts} = $opts;
-    $self->{actions} = $opts->{actions};
-
-    if ($opts->{statusFile}) {
-        $self->{statusFile} = new File::JSON($opts->{statusFile})->read;
+    if ($self->{opts}{statusFile}) {
+        $self->{statusFile} = new File::JSON($self->{opts}{statusFile})->read;
         $self->{status} = $self->{statusFile}->data;
     }
 
@@ -42,37 +39,15 @@ sub init {
 
     $self->setupMonitors();
 
-    $self->{console} = new Console();
     $self->{clipboard} = Win32::Clipboard();
 
     return $self;
 }
 
-sub start {
+sub poll {
     my $self = shift;
-
-    my $cwd = getcwd;
-    $self->{console}->title("$self->{opts}{windowTitle} | $cwd");
-    if ($self->{opts}{verbose}) {
-        printf "Polling every %u second%s\n",
-            $self->{opts}{pollingInterval},
-            $self->{opts}{pollingInterval} == 1 ? "" : "s";
-    }
-
-    $self->status;
-    #~ $self->help;
-
-    while (1) {
-        if ($self->{opts}{'Directory monitor'}) {
-            print "Poll\n" if $self->{opts}{debug};
-            $self->{snapshotMon}->poll(sub { $self->newSnapshot(@_) });
-        }
-        $self->handleInput;
-    } continue {
-        sleep $self->{opts}{pollingInterval};
-    }
+    $self->{snapshotMon}->poll(sub { $self->newSnapshot(@_) });
 }
-
 sub finish {
     my $self = shift;
     unlink $self->{opts}{lockFile} if $self->{opts}{lockFile};
@@ -99,6 +74,11 @@ sub checkExistingLock {
 
 sub createLock {
     my $self = shift;
+
+    my $dir = $self->{opts}{lockFile} || die "No lock file configured";
+    $dir =~ s/[\\\/]+[^\\\/]+$//;
+    CheckDir($dir, $self->{opts}{verbose});
+
     open my $fh, '>', $self->{opts}{lockFile} or die "$!: $self->{opts}{lockFile}";
     print $fh $$; # write pid
     close $fh;
@@ -123,18 +103,6 @@ sub setupMonitors {
 }
 
 ###############################################################################
-
-sub help {
-    my $self = shift;
-    pod2usage(
-        -exitstatus => 'NOEXIT',
-        -verbose => 99,
-        -sections => "USAGE/Keys",
-        -indent => 0,
-        -width => $self->{console}->columns,
-    );
-    $self->{console}->lineUp;
-}
 
 sub quit {
     my $self = shift;
@@ -328,16 +296,16 @@ sub newSnapshot {
             OpenFile($path);
             DeleteSnapshot($snapshot);
         } else {
-            my $data = $self->{status}->{$path} ||= {};
+            my $data = $self->{status}{$path} ||= {};
             # TODO: check values if already defined!
             $data->{dir} = delete $snapshot->{dir};
             $data->{file} = delete $snapshot->{file};
 
             my $self->{status} = delete $snapshot->{status};
-            $snapshot->{duration} = int ($self->{status}->{duration} // -1);
-            $snapshot->{durationstring} = $self->{status}->{durationstring};
-            $snapshot->{position} = int ($self->{status}->{position} // -1);
-            $snapshot->{positionstring} = $self->{status}->{positionstring};
+            $snapshot->{duration} = int ($self->{status}{duration} // -1);
+            $snapshot->{durationstring} = $self->{status}{durationstring};
+            $snapshot->{position} = int ($self->{status}{position} // -1);
+            $snapshot->{positionstring} = $self->{status}{positionstring};
 
             #~ my $timecode = delete $snapshot->{timecode};
             #~ $snapshot->{position} ||= $timecode->{seconds} * 1000;
@@ -359,32 +327,11 @@ sub newSnapshot {
         Bell();
         print "File not playing\n";
 
-        push @{$self->{status}->{unresolved}}, $snapshot;
+        push @{$self->{status}{unresolved}}, $snapshot;
         DeleteSnapshot($snapshot);
     }
 
     WriteStatus();
-}
-
-sub handleInput {
-    my $self = shift;
-    while ($self->{console}->getEvents) {
-        my @event = $self->{console}->input;
-        next if !@event or $event[0] != 1 or !$event[1];
-        print "@event\n" if $self->{opts}{debug};
-        if ($event[5]) {                    # ASCII
-            Quit() if $event[5] == 27;      # Esc
-            my $key = chr $event[5];
-            if ($self->{actions}{$key}) {
-                $self->{actions}{$key}->();
-            } elsif ($key =~ /^\w$/) {
-                print "Not an action key: $key\n" unless $self->{opts}{quiet};
-            }
-        } elsif ($event[3] == 112) {        # F1
-            Help();
-        }
-    }
-    $self->{console}->flush;    # empty buffer
 }
 
 ###############################################################################
@@ -453,7 +400,7 @@ sub moveToCategory {
             print "Move ok: $file -> $dir\n" if $self->{opts}{verbose};
 
             # remove key from status hash
-            delete $self->{status}->{$file};
+            delete $self->{status}{$file};
             Log("Move $file $dir");
 
             # remember dir
@@ -495,13 +442,7 @@ sub moveToDir {
     my $self = shift;
     my ($file, $dir) = @_;
     print "Move $file -> $dir\n" if $self->{opts}{verbose};
-    try {
-        if (CheckDir($dir)) {
-            print "Created $dir\n" if $self->{opts}{verbose};
-        }
-    } catch {
-        print "$_[0]\n";
-    };
+    CheckDir($dir, $self->{opts}{verbose});
 
     unless (move $file, $dir) {
         print "$!: $file -> $dir\n";
@@ -561,7 +502,7 @@ sub writeStatus {
 ###############################################################################
 
 sub CheckDir {
-    my $dir = shift;
+    my ($dir, $verbose) = @_;
     if (-e $dir) {
         unless (-d $dir) {
             throw Exception("Not a directory: $dir");
@@ -571,6 +512,7 @@ sub CheckDir {
     unless (make_path $dir) {
         throw Exception("$!: $dir");
     }
+    print "Created $dir\n" if $verbose;
     return 1;
 }
 
