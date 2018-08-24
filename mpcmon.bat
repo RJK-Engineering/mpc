@@ -1,4 +1,6 @@
-@perl mpcmon.pl ^
+@echo off
+
+perl mpcmon.pl ^
 --run ^
 --port 13578 ^
 --window-title "%~n0" ^
@@ -9,4 +11,4 @@
 rem --after-move "dlc"
 rem --after-delete "..."
 
-@if %errorlevel% gtr 0 pause
+if %errorlevel% gtr 0 pause
