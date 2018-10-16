@@ -13,7 +13,7 @@ ppm install Class::AccessorMaker
 ppm install Number::Bytes::Human
 ```
 
-## Settings
+## MPC Settings
 
 ```
 [Settings\PnSPresets]
