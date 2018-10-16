@@ -2,47 +2,65 @@
 
 Monitor
 - Snapshot directory
-- Web interface
-- Last playlist
+- MPC via web interface
+- MPC INI file
+- MPC Processes
+- Last playlist file
 
 ## Events
 
 * Snaphot dir
   * New snapshot
 * Web interface
-  * New file playing
-  * Status change
-  * Position change
+  * Playback file change
+  * Playback state change
+  * Playback position change
+* MPC INI
+  * File modified
+  * New favorite
+* MPC Processes
+  * New process
+  * Process gone
+  * Window title change
 * Last playlist
-  * File change
+  * File modified
 
 ## Actions
 
 * Enable/disable monitors
   * Snaphot dir (option: snapshot dir)
   * Web interface (option: webif url)
-  * Default.mpcpl, create history: cp when changed (option: mpc dir)
+  * Last playlist `default.mpcpl`, create history: cp when changed (option: mpc dir)
 * Main actions
-  * List
+  * Bookmarks
     * List files
     * List bookmarks
     * List segments
+  * Bin
     * List files in bin
-  * Show status
-    * Show monitor status (monitors en/dis, cwd, category list, en/dis actions)
+    * Empty bin
+  * Monitor
+    * List monitors - enabled/disabled, ..
+    * List new snapshot event actions - enabled/disabled, ..
+    * Show/set category list
+  * Snapshot dir
     * Show unprocessed snapshots in snapshot dir
-    * Show mpc status using webif
+    * Process unprocessed snapshots
+  * Web Interface
+    * Show mpc status
+    * Send command
+        * Take a snapshot
+  * System
+    * Show/set cwd
     * Show running mpc instances
-  * Change cwd
-  * Process unprocessed snapshots
-  * Take a snapshot using web interface
-  * Empty bin
+    * Open new mpc instance
   * Display help
   * Exit
+
 * New snapshot event actions (can be enabled/disabled)
   * Bookmark mode
     1. Get info from snapshot: filename, position, date
-    1. Get info from default.mpcpl: path
+    1. Get info from `default.mpcpl`: path
     1. Get info from instances: path
     1. Get info from web interface (only one instance)
     1. Categorize - cycle through cats, store cat index number + cat (option: category list)
@@ -152,7 +170,7 @@ Maybe: keys 12345 - menu struct
 Key     | Action | Reply
 ------- | ------ | -----
 h ?     | Help
-s       | Status
+s       | Settings
 l       | List
 r       | Reset
 p       | Pause monitoring
@@ -178,3 +196,5 @@ m       | Move
 - get open file special case: opened more then once
 - remove emtpy dir after moves fail
 - k: add title to bookmark snapshot filename
+- include snapshot when moving to best
+- change console title on chdir
