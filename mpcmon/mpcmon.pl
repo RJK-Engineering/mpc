@@ -171,8 +171,8 @@ my %opts = (
     'Open mode' => 0,
     categories => "",
 );
-Options::Pod::Configure("comments_included");
 Options::Pod::GetOptions(
+    ['OPTIONS'],
     'snapshot-dir=s' => \$opts{snapshotDir}, "{Path} to snapshot directory.",
     'snapshot-bin=s' => \$opts{snapshotBinDir}, "{Path} to snapshot bin.",
     'status-file=s' => \$opts{statusFile}, "{Path} to status file.",
@@ -198,22 +198,10 @@ Options::Pod::GetOptions(
     'q|quiet' => \$opts{quiet}, "Be quiet.",
     'debug' => \$opts{debug}, "Display debug information.",
 
-    ['Pod'],
+    ['POD'],
     Options::Pod::Options,
-
-    ['Help'],
-    'h|?|help' => sub {
-        pod2usage(
-            -exitstatus => 0,
-            -verbose => 99,
-            -sections => "DESCRIPTION|SYNOPSIS|OPTIONS",
-        );
-    }, "Display extended help.",
-)
-&& Options::Pod::HandleOptions()
-|| pod2usage(
-    -verbose => 99,
-    -sections => "DISPLAY EXTENDED HELP",
+    ['HELP'],
+    Options::Pod::HelpOptions
 );
 
 exit Edit($opts{statusFile}) if $opts{openStatus};
@@ -227,7 +215,6 @@ sub Edit {
 # required options and/or arguments
 $opts{run} ||
 $opts{mpcstatus} || pod2usage(
-    -verbose => 99,
     -sections => "DESCRIPTION|SYNOPSIS|DISPLAY EXTENDED HELP",
 );
 

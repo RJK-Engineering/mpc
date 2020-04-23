@@ -489,7 +489,7 @@ sub log {
     my $text = shift || return;
     my @t = localtime();
     open my $fh, '>>', $self->{opts}{logFile} or die "$!: $self->{opts}{logFile}";
-    printf $fh "%2.2u-%2.2u-%2.2u %2.2u:%2.2u:%2.2u %s\n",
+    printf $fh "%02u-%02u-%02u %02u:%02u:%02u %s\n",
         $t[3], $t[4]+1, $t[5]-100, $t[2], $t[1], $t[0], $text;
     close $fh;
 }

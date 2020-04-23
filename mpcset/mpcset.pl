@@ -137,8 +137,8 @@ my %opts = (
     iniFile => 'mpc-hc64.ini',
     profileFile => 'mpctweak.json',
 );
-Options::Pod::Configure("bundling", "comments_included");
 Options::Pod::GetOptions(
+    ['OPTIONS'],
     'i|ini-file=s' => \$opts{iniFile}, "{Path} to MPC INI file.",
     'w|write' => \$opts{writeIni}, "Write changes to MPC INI.",
     'o|open-ini' => \$opts{openIni}, "Open MPC INI.",
@@ -157,23 +157,6 @@ Options::Pod::GetOptions(
     #~ 'v|verbose' => \$opts{verbose}, "Be verbose.",
     #~ 'q|quiet' => \$opts{quiet}, "Be quiet.",
     #~ 'debug' => \$opts{debug}, "Display debug information.",
-
-    ['Pod'],
-    Options::Pod::Options,
-
-    ['Help'],
-    'h|?|help' => sub {
-        pod2usage(
-            -exitstatus => 0,
-            -verbose => 99,
-            -sections => "DESCRIPTION|SYNOPSIS|OPTIONS",
-        );
-    }, "Display extended help.",
-)
-&& Options::Pod::HandleOptions()
-|| pod2usage(
-    -verbose => 99,
-    -sections => "DISPLAY EXTENDED HELP",
 );
 
 exit system $opts{profileFile} if $opts{editProfiles};
@@ -183,7 +166,6 @@ exit system $opts{iniFile} if $opts{openIni};
 defined $opts{profile} ||
 defined $opts{settings} ||
 @ARGV || pod2usage(
-    -verbose => 99,
     -sections => "DESCRIPTION|SYNOPSIS|DISPLAY EXTENDED HELP",
 );
 
